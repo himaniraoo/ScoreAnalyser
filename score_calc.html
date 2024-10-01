@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        select, input[type="number"], button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Score Analyzer</h1>
+    <p>Select Subject:</p>
+    <select id="subject" onchange="showFields()">
+        <option value="3">Web Tech</option>
+        <option value="4">AFLL</option>
+        <option value="5">Math</option>
+        <option value="1">DDCO</option>
+        <option value="2">DSA</option>
+    </select>
+
+    <div id="inputs"></div>
+
+    <button onclick="calculateGrade()">Calculate Grade</button>
+
+    <h3 id="result"></h3>
+</div>
+
+<script>
+    function showFields() {
+        const subject = document.getElementById("subject").value;
+        const inputs = document.getElementById("inputs");
+        inputs.innerHTML = ""; // Clear previous inputs
+
+        // Show input fields based on selected subject
+        if (subject == 4 || subject == 5) {  // AFLL and MATH
+            inputs.innerHTML = `
+                <input type="number" id="i1" placeholder="ISA 1 Marks" required>
+                <input type="number" id="i2" placeholder="ISA 2 Marks" required>
+                <input type="number" id="a1" placeholder="Assignment Marks (/10)" required>
+                <input type="number" id="e1" placeholder="ESA Marks" required>
+            `;
+        } else if (subject == 3) {  // WEB TECH
+            inputs.innerHTML = `
+                <input type="number" id="i1" placeholder="ISA 1 Marks" required>
+                <input type="number" id="i2" placeholder="ISA 2 Marks" required>
+                <input type="number" id="a1" placeholder="Assignment Marks (/20)" required>
+                <input type="number" id="e1" placeholder="ESA Marks" required>
+            `;
+        } else if (subject == 1 || subject == 2) {  // DDCO and DSA
+            inputs.innerHTML = `
+                <input type="number" id="i1" placeholder="ISA 1 Marks" required>
+                <input type="number" id="i2" placeholder="ISA 2 Marks" required>
+                <input type="number" id="a1" placeholder="Assignment Marks (/10)" required>
+                <input type="number" id="e1" placeholder="ESA Marks" required>
+                <input type="number" id="lab" placeholder="Lab Marks (/20)" required>
+            `;
+        }
+    }
+
+    function calculateGrade() {
+        const subject = document.getElementById("subject").value;
+        let result = 0;
+
+        if (subject == 4 || subject == 5) {  // AFLL and MATH
+            const i1 = parseInt(document.getElementById("i1").value) || 0;
+            const i2 = parseInt(document.getElementById("i2").value) || 0;
+            const a1 = parseInt(document.getElementById("a1").value) || 0;
+            const e1 = parseInt(document.getElementById("e1").value) || 0;
+
+            result = Math.ceil(i1 / 2) + Math.ceil(i2 / 2) + a1 + Math.ceil(e1 / 2);
+        } else if (subject == 3) {  // WEB TECH
+            const i1 = parseInt(document.getElementById("i1").value) || 0;
+            const i2 = parseInt(document.getElementById("i2").value) || 0;
+            const a1 = parseInt(document.getElementById("a1").value) || 0;
+            const e1 = parseInt(document.getElementById("e1").value) || 0;
+
+            result = Math.ceil(i1 * 0.375) + Math.ceil(i2 * 0.375) + a1 + Math.ceil(e1 / 2);
+        } else if (subject == 1 || subject == 2) {  // DSA and DDCO
+            const i1 = parseInt(document.getElementById("i1").value) || 0;
+            const i2 = parseInt(document.getElementById("i2").value) || 0;
+            const a1 = parseInt(document.getElementById("a1").value) || 0;
+            const e1 = parseInt(document.getElementById("e1").value) || 0;
+            const lab = parseInt(document.getElementById("lab").value) || 0;
+
+            result = Math.ceil(i1 / 2) + Math.ceil(i2 / 2) + a1 + Math.ceil(e1 / 2) + Math.ceil(lab);
+            result = Math.floor((result * 100) / 120); // Scaling down to /100
+        }
+
+        // Ensure the result does not exceed 100
+        result = Math.min(result, 100);
+
+        // Determine grade based on the result
+        let grade = '';
+        if (result >= 90) {
+            grade = 'S';
+        } else if (result >= 80) {
+            grade = 'A';
+        } else if (result >= 70) {
+            grade = 'B';
+        } else if (result >= 60) {
+            grade = 'C';
+        } else if (result >= 50) {
+            grade = 'D';
+        } else if (result >= 40) {
+            grade = 'E';
+        } else {
+            grade = 'F';
+        }
+
+        document.getElementById("result").innerHTML = `Marks Obtained: ${result} / 100<br>Grade Obtained: ${grade}`;
+    }
+</script>
+
+</body>
+</html>

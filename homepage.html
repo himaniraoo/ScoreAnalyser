@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Courier Prime', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the start */
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a1a, #3a3a3a);
+            overflow: hidden;
+            position: relative;
+            color: white;
+            padding: 20px; /* Add some padding for better spacing */
+        }
+        h1 {
+            font-size: 3rem;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: fadeIn 1s forwards 0.5s;
+            z-index: 2; /* Ensure text appears above the graph */
+            margin: 0; /* Remove default margin */
+            margin-bottom: 10px; /* Adjust margin to create space for buttons */
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .button-container {
+            display: flex;
+            gap: 20px; /* Space between buttons */
+            margin-top: 10px; /* Adjusted margin to move buttons higher */
+            z-index: 2; /* Ensure buttons appear above the graph */
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            background-color: #7d7d7d;
+            color: white;
+            text-decoration: none; /* Remove underline from link */
+            display: inline-block; /* Make link act like a button */
+        }
+        .button:hover {
+            background-color: #595959;
+            transform: scale(1.05);
+        }
+        .graph-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1; /* Ensure the graph is below other elements */
+        }
+        svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="graph-container">
+        <svg viewBox="0 0 1000 500">
+            <defs>
+                <linearGradient id="trendline-gradient" gradientTransform="rotate(90)">
+                    <stop offset="0%" stop-color="#007BFF" />
+                    <stop offset="100%" stop-color="#00FF7F" />
+                </linearGradient>
+            </defs>
+            <!-- Fill area below the line -->
+            <polygon points="0,500 0,500 0,448 11,445 22,446 34,445 45,442 56,442 67,443 79,444 90,446 101,448 112,447 124,446 135,445 146,442 157,438 169,441 180,446 191,449 202,446 213,440 225,436 236,438 247,440 258,439 270,437 281,435 292,436 303,438 315,441 326,441 337,440 348,437 360,435 371,435 382,434 393,431 404,426 416,422 427,418 438,410 449,400 461,394 472,389 483,379 494,365 506,350 517,337 528,325 539,315 551,305 562,290 573,266 584,235 596,212 607,211 618,220 629,235 640,254 652,261 663,261 674,254 685,247 697,247 708,254 719,243 730,222 742,184 753,152 764,148 775,166 787,189 798,202 809,198 820,182 831,168 843,158 854,144 865,115 876,82 888,57 899,41 910,47 921,73 933,103 944,113 955,103 966,88 978,84 989,88 1000,89 1000,500" fill="url(#trendline-gradient)" opacity="0">
+                <animate 
+                    attributeName="opacity" 
+                    from="0" 
+                    to="1" 
+                    dur="3s" 
+                    fill="freeze" 
+                />
+            </polygon>
+            <polyline points="0,500 0,448 11,445 22,446 34,445 45,442 56,442 67,443 79,444 90,446 101,448 112,447 124,446 135,445 146,442 157,438 169,441 180,446 191,449 202,446 213,440 225,436 236,438 247,440 258,439 270,437 281,435 292,436 303,438 315,441 326,441 337,440 348,437 360,435 371,435 382,434 393,431 404,426 416,422 427,418 438,410 449,400 461,394 472,389 483,379 494,365 506,350 517,337 528,325 539,315 551,305 562,290 573,266 584,235 596,212 607,211 618,220 629,235 640,254 652,261 663,261 674,254 685,247 697,247 708,254 719,243 730,222 742,184 753,152 764,148 775,166 787,189 798,202 809,198 820,182 831,168 843,158 854,144 865,115 876,82 888,57 899,41 910,47 921,73 933,103 944,113 955,103 966,88 978,84 989,88 1000,89 1000,500" fill="none" vector-effect="non-scaling-stroke" stroke-width="2" stroke="url(#trendline-gradient)">
+                <animate 
+                    attributeName="stroke-dasharray" 
+                    from="0, 1000" 
+                    to="1000, 0" 
+                    dur="3s" 
+                    fill="freeze" 
+                />
+                <animate 
+                    attributeName="stroke-dashoffset" 
+                    from="1000" 
+                    to="0" 
+                    dur="3s" 
+                    fill="freeze" 
+                />
+            </polyline>
+        </svg>
+    </div>
+    <h1>Welcome to Score Calculator</h1>
+    <div class="button-container">
+        <a href="semester1.html" class="button">Sem 1</a>
+        <a href="semester2.html" class="button">Sem 2</a>
+        <a href="semester3.html" class="button">Sem 3</a>
+        <a href="semester4.html" class="button">Sem 4</a> 
+        <a href="semester5.html" class="button">Sem 5</a> 
+    </div>
+
+</body>
+</html>
